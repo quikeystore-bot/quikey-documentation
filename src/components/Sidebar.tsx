@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
-import { navigation, type NavSection, type NavSubItem } from "@/config/navigation";
+import { tabs, navigation, type NavSection, type NavSubItem } from "@/config/navigation";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -50,7 +50,12 @@ function SubMenu({ subItems, parentHref }: { subItems: NavSubItem[]; parentHref:
     <div className="mt-0.5 space-y-px pb-1">
       {subItems.map((sub) => {
         const hasChildren = sub.items && sub.items.length > 0;
-        const isActive = pathname === sub.href || pathname.startsWith(sub.href + "/");
+        // Leaf items only match their exact path — prefix matching here would
+        // make an "index" item (e.g. href === parent section's href) light up
+        // for every sibling page nested under that same section.
+        const isActive = hasChildren
+          ? pathname === sub.href || pathname.startsWith(sub.href + "/")
+          : pathname === sub.href;
         const isSubSubOpen = openSubSub === sub.href;
 
         if (hasChildren) {
@@ -143,6 +148,19 @@ function SectionItem({ section }: { section: NavSection }) {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const sidebarRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
+  const [activeTab, setActiveTab] = useState("general");
+
+  // Sync active tab with current route
+  useEffect(() => {
+    const matchedTab = tabs.find(tab => 
+      tab.sections.some(section => 
+        pathname === section.href || pathname.startsWith(section.href + "/")
+      )
+    );
+    if (matchedTab) {
+      setActiveTab(matchedTab.id);
+    }
+  }, [pathname]);
 
   // Close on route change (mobile)
   useEffect(() => {
@@ -171,6 +189,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     };
   }, [isOpen]);
 
+  const activeSections = tabs.find(t => t.id === activeTab)?.sections || [];
+
   return (
     <>
       {/* Mobile overlay */}
@@ -183,19 +203,38 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={`docs-sidebar sidebar-scrollbar ${isOpen ? "open" : ""}`}
+        className={`docs-sidebar sidebar-scrollbar flex flex-col ${isOpen ? "open" : ""}`}
         aria-label="Documentation navigation"
         id="docs-sidebar"
       >
+        {/* Tabs */}
+        <div className="px-3 pt-4 pb-2 shrink-0">
+          <div className="flex space-x-1 bg-[var(--bg-subtle)] p-1 rounded-lg border border-[var(--border)] shadow-inner">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`press flex-1 text-[11px] uppercase tracking-wider font-semibold py-1.5 px-2 rounded-md transition-all ${
+                  activeTab === tab.id
+                    ? "bg-[var(--bg)] text-[var(--fg)] shadow-sm"
+                    : "text-[var(--fg-subtle)] hover:text-[var(--fg)] hover:bg-[var(--bg-subtle-hover)]"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Sidebar inner padding */}
-        <div className="px-3 py-4 space-y-px">
-          {navigation.map((section) => (
+        <div className="px-3 py-2 space-y-px flex-1 overflow-y-auto">
+          {activeSections.map((section) => (
             <SectionItem key={section.href} section={section} />
           ))}
         </div>
 
         {/* Sidebar footer note */}
-        <div className="px-4 py-4 border-t border-[var(--border)] mt-2">
+        <div className="px-4 py-4 border-t border-[var(--border)] mt-auto shrink-0">
           <p className="text-[11px] text-[var(--fg-subtle)] leading-relaxed">
             Can&apos;t find what you need?{" "}
             <a

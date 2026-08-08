@@ -17,12 +17,7 @@ interface HeaderProps {
   onSearchOpen?: () => void;
 }
 
-const NAV_LINKS = [
-  { label: "User Guide", href: "/docs/getting-started" },
-  { label: "Developer Hub", href: "/docs/developer" },
-  { label: "Integrations", href: "/docs/apps" },
-  { label: "Changelog", href: "/changelog" },
-];
+
 
 export default function Header({
   onMenuToggle,
@@ -50,12 +45,7 @@ export default function Header({
   }, [onSearchOpen]);
 
   return (
-    <header
-      className={`docs-header ${
-        scrolled ? "shadow-[0_1px_0_0_var(--border)]" : ""
-      }`}
-      style={{ transition: "box-shadow 0.2s ease" }}
-    >
+    <header className={`docs-header ${scrolled ? "scrolled" : ""}`}>
       {/* ── Logo ── */}
       <Link
         href="/"
@@ -81,21 +71,7 @@ export default function Header({
         </span>
       </Link>
 
-      {/* ── Desktop Nav ── */}
-      <nav
-        className="hidden md:flex items-center gap-1 ml-6"
-        aria-label="Documentation navigation"
-      >
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.label}
-            href={link.href}
-            className="px-3 py-1.5 text-[13.5px] font-medium text-[var(--fg-muted)] rounded-md hover:bg-[var(--bg-hover)] hover:text-[var(--fg)] transition-all"
-          >
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+
 
       {/* ── Spacer ── */}
       <div className="flex-1" />
@@ -105,7 +81,7 @@ export default function Header({
         {/* Search trigger */}
         <button
           onClick={onSearchOpen}
-          className="search-trigger hidden sm:flex"
+          className="search-trigger press hidden sm:flex"
           aria-label="Search documentation (Ctrl+K)"
           id="header-search-btn"
         >
@@ -119,7 +95,7 @@ export default function Header({
         {/* Mobile search */}
         <button
           onClick={onSearchOpen}
-          className="sm:hidden p-2 rounded-md text-[var(--fg-muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--fg)] transition-all"
+          className="press sm:hidden p-2 rounded-md text-[var(--fg-muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--fg)] transition-all"
           aria-label="Search"
           id="header-search-mobile-btn"
         >
@@ -131,7 +107,7 @@ export default function Header({
           href="https://app.quikey.store"
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-brand hidden sm:flex"
+          className="btn btn-brand press hidden sm:flex"
           id="header-dashboard-btn"
         >
           Dashboard
@@ -141,7 +117,7 @@ export default function Header({
         {/* Mobile menu toggle */}
         <button
           onClick={onMenuToggle}
-          className="md:hidden p-2 rounded-md text-[var(--fg-muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--fg)] transition-all"
+          className="press md:hidden p-2 rounded-md text-[var(--fg-muted)] hover:bg-[var(--bg-hover)] hover:text-[var(--fg)] transition-all"
           aria-label={isSidebarOpen ? "Close menu" : "Open menu"}
           aria-expanded={isSidebarOpen}
           id="header-menu-btn"
