@@ -52,14 +52,7 @@ export default function Header({
         className="flex items-center gap-2 flex-shrink-0 text-[var(--fg)] hover:opacity-80 transition-opacity"
         aria-label="Quikey Documentation home"
       >
-        <Image
-          src="/logo.png"
-          alt="Quikey"
-          width={28}
-          height={28}
-          priority
-          className="object-contain"
-        />
+        {/* No bag icon as requested */}
         <span className="font-bold text-[15px] tracking-tight text-[var(--fg)]">
           Quikey
         </span>

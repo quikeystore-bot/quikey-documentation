@@ -157,11 +157,23 @@ export const tabs: NavTab[] = [
           { title: "App Store", href: "/docs/apps" },
           { title: "Installing Apps", href: "/docs/apps/installing" },
           { title: "Managing Apps", href: "/docs/apps/managing" },
+          // Payments
           { title: "bKash", href: "/docs/apps/bkash" },
           { title: "Nagad", href: "/docs/apps/nagad" },
           { title: "SSLCommerz", href: "/docs/apps/sslcommerz" },
+          // Courier
           { title: "Pathao Courier", href: "/docs/apps/pathao" },
           { title: "Steadfast Courier", href: "/docs/apps/steadfast" },
+          // Analytics
+          { title: "Facebook Meta Pixel", href: "/docs/apps/facebook-meta-pixel" },
+          { title: "Google Analytics", href: "/docs/apps/google-analytics" },
+          { title: "Google Tag Manager", href: "/docs/apps/google-tag-manager" },
+          { title: "TikTok Pixel + Events API", href: "/docs/apps/tiktok-pixel-events-api" },
+          // Sales
+          { title: "Quikey Flash Sale", href: "/docs/apps/quikey-flash-sale" },
+          { title: "Quikey Discount & Coupon", href: "/docs/apps/quikey-discount-coupon" },
+          { title: "Quikey Bundle Products", href: "/docs/apps/quikey-bundle-products" },
+          { title: "Quikey Product Reviews", href: "/docs/apps/quikey-product-reviews" },
         ],
       },
     ],
