@@ -1,0 +1,47 @@
+---
+title: Custom Domain Setup
+description: Learn how to connect your custom domain to your Quikey store.
+---
+
+# Custom Domain Setup
+
+Connecting a custom domain to your Quikey store allows you to build brand identity and provide a professional shopping experience for your customers.
+
+## Step 1: Add your domain in Quikey
+
+1. Go to your store's **Settings** dashboard and navigate to **Domains**.
+2. Enter your custom domain (e.g. `yourstore.com`) in the "Connect a custom domain" input box.
+3. Click the **Connect** button.
+4. Your domain will now appear in the Connected Domains list with a **Pending Verification** status.
+
+## Step 2: Add DNS records to your provider
+
+To connect your domain, you need to prove ownership and route traffic to Quikey's servers. 
+
+Click on the **Verify** button next to your pending domain in the Quikey dashboard. You will be provided with two CNAME records. 
+
+Log in to your domain provider (e.g., Hostinger, Namecheap, GoDaddy) and add the following records in your DNS settings:
+
+### 1. Traffic Routing (Required)
+This record ensures that when customers visit your domain, they are directed to your Quikey store.
+
+- **Type:** `CNAME`
+- **Name / Host:** `@` *(or `www` if you are connecting a subdomain)*
+- **Value / Target:** `quikey.store`
+
+### 2. SSL Verification (Required)
+This record allows Quikey to automatically generate a free SSL certificate for your domain so your store is secure (`https://`).
+
+- **Type:** `CNAME`
+- **Name / Host:** `_acme-challenge`
+- **Value / Target:** *(Copy the unique Cloudflare value shown in your Quikey dashboard)*
+
+## Step 3: Verify and Go Live!
+
+After adding the DNS records to your provider, wait a few minutes for the changes to propagate across the internet. 
+
+1. Return to your Quikey **Domains** settings.
+2. Click the **Check DNS & Verify** button.
+3. Once Cloudflare verifies the records, your domain status will change to **Connected**.
+
+Congratulations! Your store is now live on your custom domain.
